@@ -1,6 +1,8 @@
 #include "SDL/include/SDL.h"
+#include "SDL_Image/include/SDL_image.h"
 #pragma comment (lib, "SDL/SDL2.lib")
 #pragma comment (lib, "SDL/SDL2main.lib")
+#pragma comment (lib, "SDL_Image/SDL2_Image.lib")
 #include <stdio.h>
 
 const int SCREEN_WIDTH = 640;
@@ -52,6 +54,7 @@ int main(int argc, char * argv[])
 
 	bool loop = true;
 	bool quit = true;
+	bool fire = false;
 
 	int rectvelx = 0;
 	int rectvely = 0;
@@ -82,7 +85,7 @@ int main(int argc, char * argv[])
 					loop = false;
 				}
 
-				 else if (ev.type == SDL_KEYDOWN)
+				else if (ev.type == SDL_KEYDOWN)
 				{
 					switch (ev.key.keysym.sym)
 					{
@@ -92,6 +95,7 @@ int main(int argc, char * argv[])
 							break;
 						}
 						rectangle.y -= 10;
+						laser.y -= 10;
 						break;
 
 					case SDLK_DOWN:
@@ -100,6 +104,7 @@ int main(int argc, char * argv[])
 							break;
 						}
 						rectangle.y += 10;
+						laser.y += 10;
 						break;
 
 					case SDLK_LEFT:
@@ -107,13 +112,9 @@ int main(int argc, char * argv[])
 						{
 							break;
 						}
-						
-						/*if (state[SDLK_RIGHT] != 0)
-						{
-							break;
-						}*/
 
 						rectangle.x -= 10;
+						laser.x -= 10;
 						break;
 
 					case SDLK_RIGHT:
@@ -122,6 +123,7 @@ int main(int argc, char * argv[])
 							break;
 						}
 						rectangle.x += 10;
+						laser.x += 10;
 						break;
 
 					case SDLK_ESCAPE:
@@ -129,47 +131,65 @@ int main(int argc, char * argv[])
 						break;
 
 					case SDLK_SPACE:
-
+#if 0
 						while (quit)
 						{
 							if (laser.x < 640)
 							{
 								laser.x++;
-								
+
 							}
 
 							else if (laser.x >= 640)
 							{
-								quit = false;
+								laser.x = 325;
 								break;
 							}
-
-							SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
-							SDL_RenderFillRect(renderer, &laser);
-							SDL_RenderPresent(renderer);
-						}
-						break;
-#if 0
-					case SDLK_7:
-						rectvelx++;
-						rectvely++;
-
-						while (quit)
-						{
-							rectangle.x += rectvelx;
-							rectangle.y += rectvely;
-						}
-						break;
 #endif
-					default:
+							if (quit)
+							{
+								laser.x = 290;
+								laser.y = 200;
+								fire = true;
+							}
+
+							/*SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
+							SDL_RenderFillRect(renderer, &laser);
+							SDL_RenderPresent(renderer);*/
+					}
 						break;
 
-					}
+					///*case SDLK_7:
+					//	rectvelx++;
+					//	rectvely++;*/
+
+					//	while (quit)
+					//	{
+					//		rectangle.x += rectvelx;
+					//		rectangle.y += rectvely;
+					//	}
+					//	break;
 				}
 			}
 
+			if (fire)
+			{
+				laser.x += 10;
+				
+				if (fire > 640)
+				{
+					fire == false;
+				}
+			}
+					
+
 			SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 			SDL_RenderClear(renderer);
+
+			SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
+			SDL_RenderFillRect(renderer, &laser);
+			SDL_RenderPresent(renderer);
+
 			SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 			SDL_RenderFillRect(renderer, &rectangle);
 			SDL_RenderPresent(renderer);
