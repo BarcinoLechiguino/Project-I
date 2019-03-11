@@ -40,6 +40,23 @@ int main(int argc, char * argv[])
 		return 1;
 	}
 
+	int flags = IMG_INIT_PNG;
+	int initted = IMG_Init(flags);
+
+	if ((initted&flags) != flags)
+	{
+		printf("IMG_Init: Failed to init required jpg and png support!\n");
+		printf("IMG_Init: %s\n", IMG_GetError());
+	}
+
+	SDL_Surface *image;
+	image = IMG_Load("BG.png");
+
+	if (!image) 
+	{
+		printf("IMG_Load: %s\n", IMG_GetError());
+	}
+
 	SDL_Rect rectangle; //Declares a structure that contains the definition of the rectangle. The origin is at the upper left.
 	rectangle.x = 290; //X position of the rectangle inside the window.
 	rectangle.y = 185; //Y position of the rectangle inside the window.
@@ -53,7 +70,6 @@ int main(int argc, char * argv[])
 	laser.h = 10;
 
 	bool loop = true;
-	bool quit = true;
 	bool fire = false;
 
 	const Uint8 * state = SDL_GetKeyboardState(NULL);
@@ -87,6 +103,10 @@ int main(int argc, char * argv[])
 			if (state[SDL_SCANCODE_DOWN])
 			{
 				rectangle.y += 10;
+
+				if(state[NULL])
+				{
+				}
 				
 				if (!fire)
 				{
@@ -118,7 +138,7 @@ int main(int argc, char * argv[])
 
 			if (state[SDL_SCANCODE_SPACE])
 			{
-				if (quit)
+				if (loop)
 				{
 					fire = true;
 				}
@@ -137,19 +157,7 @@ int main(int argc, char * argv[])
 				fire = false;
 			}
 		}
-#if 0
-		if (loop)
-		{
-			rectangle.x++;
-		}
 
-		else
-		{
-			rectangle.x--;
-		}
-
-
-#endif
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 		SDL_RenderClear(renderer);	
 			
@@ -168,6 +176,7 @@ int main(int argc, char * argv[])
 	SDL_DestroyRenderer(renderer); //The SDL_DestroyRenderer destroys the rendering context and free associated textures specified in ().
 	SDL_DestroyWindow(window); //The SDL_DestroyWindow function destroys the window specified in ().
 	SDL_Quit(); //The SDL_Quit terminates and shuts down all subsystems.
+	IMG_Quit();
 
 	return 0;
 }
