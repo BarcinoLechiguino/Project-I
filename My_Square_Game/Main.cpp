@@ -31,7 +31,7 @@ int main(int argc, char * argv[])
 	}
 
 	SDL_Renderer * renderer = NULL; //Contains a rendered state.
-	renderer = SDL_CreateRenderer(window, -1, 0); //Creates a 2D rendering context for a window. Needs 3 parameters with those being: window where it will be rendering to, an index normally initialized to -1  and a 0 or a SDL_RendererFlags.
+	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC); //Creates a 2D rendering context for a window. Needs 3 parameters with those being: window where it will be rendering to, an index normally initialized to -1  and a 0 or a SDL_RendererFlags.
 
 	if (renderer == NULL) //Upon failure to create a 2d rendering contex, the function will return NULL.
 	{
@@ -47,7 +47,7 @@ int main(int argc, char * argv[])
 	rectangle.h = 75; //Height of the rectangle.
 
 	SDL_Rect laser;
-	laser.x = 375;
+	laser.x = 290;
 	laser.y = 210;
 	laser.w = 30;
 	laser.h = 10;
@@ -58,68 +58,116 @@ int main(int argc, char * argv[])
 
 	const Uint8 * state = SDL_GetKeyboardState(NULL);
 
-	int rectvelx = 0;
-	int rectvely = 0;
+	while (loop)
+	{
+		SDL_Event ev;
 
-	//while (loop)
-	//{
-#if 0
-		if (rectangle.x > 565)
+		while (SDL_PollEvent(&ev))
 		{
-			loop = false;
-		}
-
-		else if (rectangle.x < 0)
-		{
-			loop = true;
-		}
-#endif
-
-		while (loop)
-		{
-			SDL_Event ev;
-
-			while (SDL_PollEvent(&ev))
+			if (ev.type == SDL_QUIT)
 			{
-				if (state[SDL_SCANCODE_UP])
+				loop = false;
+			}
+
+			if (state[SDL_SCANCODE_ESCAPE])
+			{
+				loop = false;
+			}
+			
+			if (state[SDL_SCANCODE_UP])
+			{
+				rectangle.y -= 10;
+				
+				if (!fire)
 				{
-					rectangle.y -= 10;
+					laser.y -= 10;
 				}
-
-
-
-
-
 			}
-					
-			//Background
-			SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-			SDL_RenderClear(renderer);
 
-			//Laser
-			SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
-			SDL_RenderFillRect(renderer, &laser);
-			SDL_RenderPresent(renderer);
+			if (state[SDL_SCANCODE_DOWN])
+			{
+				rectangle.y += 10;
+				
+				if (!fire)
+				{
+					laser.y += 10;
+				}
+			}
 
-			//Square
-			SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-			SDL_RenderFillRect(renderer, &rectangle);
-			SDL_RenderPresent(renderer);
+
+			if (state[SDL_SCANCODE_LEFT])
+			{
+				rectangle.x -= 10;
+
+				if (!fire)
+				{
+					laser.x -= 10;
+				}
+			}
+
+
+			if (state[SDL_SCANCODE_RIGHT])
+			{
+				rectangle.x += 10;
+				
+				if (!fire)
+				{
+					laser.x += 10;
+				}
+			}
+
+			if (state[SDL_SCANCODE_SPACE])
+			{
+				if (quit)
+				{
+					fire = true;
+				}
+			}
+
+		}
+
+		if (fire)
+		{
+			laser.x += 10;
+
+			if (laser.x > 640)
+			{
+				laser.x = rectangle.x;
+				laser.y = rectangle.y + 25;
+				fire = false;
+			}
 		}
 #if 0
-			if (loop)
-			{
-				rectangle.x++;
-			}
+		if (loop)
+		{
+			rectangle.x++;
+		}
 
-			else
-			{
-				rectangle.x--;
-			}
+		else
+		{
+			rectangle.x--;
+		}
+
+
 #endif
-			SDL_DestroyRenderer(renderer); //The SDL_DestroyRenderer destroys the rendering context and free associated textures specified in ().
-			SDL_DestroyWindow(window); //The SDL_DestroyWindow function destroys the window specified in ().
-			SDL_Quit(); //The SDL_Quit terminates and shuts down all subsystems.
+		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+		SDL_RenderClear(renderer);	
+			
+		//Laser
+		SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
+		SDL_RenderFillRect(renderer, &laser);
 
-			return 0;
+		//Square
+		SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+		SDL_RenderFillRect(renderer, &rectangle);
+
+		SDL_RenderPresent(renderer);
 	}
+
+
+	SDL_DestroyRenderer(renderer); //The SDL_DestroyRenderer destroys the rendering context and free associated textures specified in ().
+	SDL_DestroyWindow(window); //The SDL_DestroyWindow function destroys the window specified in ().
+	SDL_Quit(); //The SDL_Quit terminates and shuts down all subsystems.
+
+	return 0;
+}

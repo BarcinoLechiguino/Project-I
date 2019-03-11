@@ -90,13 +90,3 @@ else if (ev.type == SDL_KEYDOWN)
 		//	break;
 	}
 }
-
-if (fire)
-{
-	laser.x += 10;
-
-	if (fire > 640)
-	{
-		fire == false;
-	}
-}
