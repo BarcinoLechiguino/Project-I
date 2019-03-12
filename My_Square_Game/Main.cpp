@@ -1,8 +1,10 @@
 #include "SDL/include/SDL.h"
 #include "SDL_Image/include/SDL_image.h"
+#include "SDL_Mixer/include/SDL_mixer.h"
 #pragma comment (lib, "SDL/SDL2.lib")
 #pragma comment (lib, "SDL/SDL2main.lib")
-#pragma comment (lib, "SDL_Image/SDL2_Image.lib")
+#pragma comment (lib, "SDL_Image/SDL2_image.lib")
+#pragma comment (lib, "SDL_Mixer/SDL2_mixer.lib")
 #include <stdio.h>
 
 const int SCREEN_WIDTH = 640;
@@ -30,6 +32,8 @@ int main(int argc, char * argv[])
 		return 1;
 	}
 
+	
+	
 	SDL_Renderer * renderer = NULL; //Contains a rendered state.
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC); //Creates a 2D rendering context for a window. Needs 3 parameters with those being: window where it will be rendering to, an index normally initialized to -1  and a 0 or a SDL_RendererFlags.
 
@@ -39,24 +43,48 @@ int main(int argc, char * argv[])
 		SDL_Quit();
 		return 1;
 	}
+	
+	//Image and textures
+	SDL_Surface * surface = nullptr;
 
+	SDL_Texture * bg_texture = nullptr;
+	SDL_Texture * square_texture = nullptr;
+	SDL_Texture * lazor_texture = nullptr;
+
+	//Initializing Img
 	int flags = IMG_INIT_PNG;
 	int initted = IMG_Init(flags);
 
-	if ((initted&flags) != flags)
+	if (!(IMG_Init(flags) & flags))
 	{
 		printf("IMG_Init: Failed to init required jpg and png support!\n");
 		printf("IMG_Init: %s\n", IMG_GetError());
 	}
 
-	SDL_Surface *image;
-	image = IMG_Load("BG.png");
+	else
+	{
+		surface = SDL_GetWindowSurface(window);
+	}
 
-	if (!image) 
+	//Background image
+	square_texture = IMG_LoadTexture(renderer, "BG.png");
+	lazor_texture = IMG_LoadTexture(renderer, "BG.png");
+	bg_texture = IMG_LoadTexture(renderer, "BG.png");
+
+	if (surface == nullptr) 
 	{
 		printf("IMG_Load: %s\n", IMG_GetError());
 	}
 
+	//else
+	//{
+	//	/*bg_texture = SDL_CreateTextureFromSurface(renderer, surface);
+	//	square_texture = SDL_CreateTextureFromSurface(renderer, surface);
+	//	lazor_texture = SDL_CreateTextureFromSurface(renderer, surface);*/
+	//}
+
+	SDL_Rect bg = { 0, 0, 640, 480 };
+	
 	SDL_Rect rectangle; //Declares a structure that contains the definition of the rectangle. The origin is at the upper left.
 	rectangle.x = 290; //X position of the rectangle inside the window.
 	rectangle.y = 185; //Y position of the rectangle inside the window.
@@ -158,25 +186,33 @@ int main(int argc, char * argv[])
 			}
 		}
 
-		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-		SDL_RenderClear(renderer);	
+		//SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+		SDL_RenderClear(renderer);
 			
 		//Laser
-		SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
-		SDL_RenderFillRect(renderer, &laser);
+		//SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
+		//SDL_RenderFillRect(renderer, &laser);
 
-		//Square
-		SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-		SDL_RenderFillRect(renderer, &rectangle);
+		////Square
+		//SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+		//SDL_RenderFillRect(renderer, &rectangle);
+
+		//Sprites
+		SDL_RenderCopy(renderer, bg_texture, nullptr, &bg);
+		SDL_RenderCopy(renderer, square_texture, nullptr, &rectangle);
+		SDL_RenderCopy(renderer, lazor_texture, nullptr, &laser);
 
 		SDL_RenderPresent(renderer);
 	}
 
-
+	SDL_DestroyTexture(bg_texture);
+	SDL_DestroyTexture(square_texture);
+	SDL_DestroyTexture(lazor_texture);
+	SDL_FreeSurface(surface);
 	SDL_DestroyRenderer(renderer); //The SDL_DestroyRenderer destroys the rendering context and free associated textures specified in ().
 	SDL_DestroyWindow(window); //The SDL_DestroyWindow function destroys the window specified in ().
-	SDL_Quit(); //The SDL_Quit terminates and shuts down all subsystems.
 	IMG_Quit();
+	SDL_Quit(); //The SDL_Quit terminates and shuts down all subsystems.
 
 	return 0;
 }
