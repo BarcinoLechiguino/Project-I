@@ -52,7 +52,7 @@ int main(int argc, char * argv[])
 	SDL_Texture * lazor_texture = nullptr;
 
 	//Initializing Img
-	int flags = IMG_INIT_PNG;
+	int flags = IMG_INIT_PNG | IMG_INIT_JPG;
 	int initted = IMG_Init(flags);
 
 	if (!(IMG_Init(flags) & flags))
@@ -67,9 +67,9 @@ int main(int argc, char * argv[])
 	}
 
 	//Background image
-	square_texture = IMG_LoadTexture(renderer, "BG.png");
-	lazor_texture = IMG_LoadTexture(renderer, "BG.png");
-	bg_texture = IMG_LoadTexture(renderer, "BG.png");
+	square_texture = IMG_LoadTexture(renderer, "hadooooooken.png");
+	lazor_texture = IMG_LoadTexture(renderer, "energy bolt.jpg");
+	bg_texture = IMG_LoadTexture(renderer, "ryustage.png");
 
 	if (surface == nullptr) 
 	{
@@ -82,6 +82,15 @@ int main(int argc, char * argv[])
 	//	square_texture = SDL_CreateTextureFromSurface(renderer, surface);
 	//	lazor_texture = SDL_CreateTextureFromSurface(renderer, surface);*/
 	//}
+
+	int mixerFlags = MIX_INIT_OGG;
+
+	if (!(Mix_Init(mixerFlags) & mixerFlags))
+	{
+		printf("Mix_Init: Failed to init required ogg and wav support!\n");
+		printf("Mix_Init: %s\n", IMG_GetError());
+	}
+
 
 	SDL_Rect bg = { 0, 0, 640, 480 };
 	
