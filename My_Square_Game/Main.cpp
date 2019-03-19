@@ -68,7 +68,7 @@ int main(int argc, char * argv[])
 
 	//Background image
 	square_texture = IMG_LoadTexture(renderer, "hadooooooken.png");
-	lazor_texture = IMG_LoadTexture(renderer, "energy bolt.jpg");
+	lazor_texture = IMG_LoadTexture(renderer, "Hadouken.png");
 	bg_texture = IMG_LoadTexture(renderer, "ryustage.png");
 
 	if (surface == nullptr) 
@@ -82,29 +82,53 @@ int main(int argc, char * argv[])
 	//	square_texture = SDL_CreateTextureFromSurface(renderer, surface);
 	//	lazor_texture = SDL_CreateTextureFromSurface(renderer, surface);*/
 	//}
-
+	//Audio
 	int mixerFlags = MIX_INIT_OGG;
 
-	if (!(Mix_Init(mixerFlags) & mixerFlags))
+	if (!(Mix_Init(mixerFlags) & mixerFlags)) //Initializes the SDL_Mixer library. Requires a flag that specifies the kind of format the audio that will be played has.
 	{
-		printf("Mix_Init: Failed to init required ogg and wav support!\n");
-		printf("Mix_Init: %s\n", IMG_GetError());
+		SDL_Log("Unable to initialize the SDL_Mixer library: %s\n", Mix_GetError());
 	}
 
+	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024) == -1) //Initializes the Mixer API. Requires the frequency(Hz) of the audio, in which format does it come, the channels and the chunkSize.
+	{
+		SDL_Log("Unable to execute Mix_OpenAudio(): %s\n", Mix_GetError());
+	}
+
+	Mix_Music * music;
+	music = Mix_LoadMUS("level1.ogg");
+
+	if (!music)
+	{
+		SDL_Log("Mix_LoadMUS('level1.ogg'): %s\n", Mix_GetError());
+	}
+
+	Mix_Chunk * sample;
+	sample = Mix_LoadWAV("laser.wav");
+	
+	if (!sample)
+	{
+		SDL_Log("Mix_LoadWAV('laser.wav'): %s\n", Mix_GetError());
+	}
+
+	if (Mix_PlayMusic(music, -1) == -1)
+	{
+		SDL_Log("Mix_PlayMusic: %s\n", Mix_GetError());
+	}
 
 	SDL_Rect bg = { 0, 0, 640, 480 };
 	
 	SDL_Rect rectangle; //Declares a structure that contains the definition of the rectangle. The origin is at the upper left.
-	rectangle.x = 290; //X position of the rectangle inside the window.
-	rectangle.y = 185; //Y position of the rectangle inside the window.
-	rectangle.w = 75; //Width of the rectangle.
-	rectangle.h = 75; //Height of the rectangle.
+	rectangle.x = 50; //X position of the rectangle inside the window.
+	rectangle.y = 275; //Y position of the rectangle inside the window.
+	rectangle.w = 150; //Width of the rectangle.
+	rectangle.h = 150; //Height of the rectangle.
 
 	SDL_Rect laser;
-	laser.x = 290;
-	laser.y = 210;
-	laser.w = 30;
-	laser.h = 10;
+	laser.x = 85;
+	laser.y = 290;
+	laser.w = 100;
+	laser.h = 50;
 
 	bool loop = true;
 	bool fire = false;
@@ -114,6 +138,11 @@ int main(int argc, char * argv[])
 	while (loop)
 	{
 		SDL_Event ev;
+
+		/*if (Mix_PlayMusic(music, 1) == -1)
+		{
+			SDL_Log("Mix_PlayMusic: %s\n", Mix_GetError());
+		}*/
 
 		while (SDL_PollEvent(&ev))
 		{
@@ -175,9 +204,19 @@ int main(int argc, char * argv[])
 
 			if (state[SDL_SCANCODE_SPACE])
 			{
+				if(!sample) 
+				{
+					SDL_Log("Mix_LoadWav('laser.wav'): %s\n", Mix_GetError());
+				}
+				
 				if (loop)
 				{
 					fire = true;
+				}
+
+				if (Mix_PlayChannel(-1, sample, 0) == -1)
+				{
+					SDL_Log("Mix_PlayChannel: %s\n", Mix_GetError());
 				}
 			}
 
@@ -189,10 +228,15 @@ int main(int argc, char * argv[])
 
 			if (laser.x > 640)
 			{
-				laser.x = rectangle.x;
-				laser.y = rectangle.y + 25;
+				laser.x = rectangle.x + 35;
+				laser.y = rectangle.y + 15;
 				fire = false;
 			}
+
+		/*	if (Mix_PlayChannel(-1, sample, 0) == -1)
+			{
+				SDL_Log("Mix_PlayChannel: %s\n", Mix_GetError());
+			}*/
 		}
 
 		//SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
@@ -208,19 +252,28 @@ int main(int argc, char * argv[])
 
 		//Sprites
 		SDL_RenderCopy(renderer, bg_texture, nullptr, &bg);
-		SDL_RenderCopy(renderer, square_texture, nullptr, &rectangle);
+		//SDL_RenderCopy(renderer, square_texture, nullptr, &rectangle);
 		SDL_RenderCopy(renderer, lazor_texture, nullptr, &laser);
+		SDL_RenderCopy(renderer, square_texture, nullptr, &rectangle);
 
 		SDL_RenderPresent(renderer);
+
+		//Audio
+	
 	}
 
 	SDL_DestroyTexture(bg_texture);
-	SDL_DestroyTexture(square_texture);
+	//SDL_DestroyTexture(square_texture);
 	SDL_DestroyTexture(lazor_texture);
+	SDL_DestroyTexture(square_texture);
 	SDL_FreeSurface(surface);
 	SDL_DestroyRenderer(renderer); //The SDL_DestroyRenderer destroys the rendering context and free associated textures specified in ().
 	SDL_DestroyWindow(window); //The SDL_DestroyWindow function destroys the window specified in ().
-	IMG_Quit();
+	Mix_FreeChunk(sample);
+	Mix_FreeMusic(music); //Frees the loaded music.
+	Mix_CloseAudio(); //Shutdown and cleanup  of the Mixer API. After calling this all audio is stopped.
+	Mix_Quit(); //Shutdown and cleanup of the libraries and dymanic memory space is freed.
+	IMG_Quit(); //Shutdown and cleanup of the IMG subsystems and dynamic memory is freed.
 	SDL_Quit(); //The SDL_Quit terminates and shuts down all subsystems.
 
 	return 0;
