@@ -139,11 +139,6 @@ int main(int argc, char * argv[])
 	{
 		SDL_Event ev;
 
-		/*if (Mix_PlayMusic(music, 1) == -1)
-		{
-			SDL_Log("Mix_PlayMusic: %s\n", Mix_GetError());
-		}*/
-
 		while (SDL_PollEvent(&ev))
 		{
 			if (ev.type == SDL_QUIT)
@@ -232,11 +227,6 @@ int main(int argc, char * argv[])
 				laser.y = rectangle.y + 15;
 				fire = false;
 			}
-
-		/*	if (Mix_PlayChannel(-1, sample, 0) == -1)
-			{
-				SDL_Log("Mix_PlayChannel: %s\n", Mix_GetError());
-			}*/
 		}
 
 		//SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
@@ -263,7 +253,6 @@ int main(int argc, char * argv[])
 	}
 
 	SDL_DestroyTexture(bg_texture);
-	//SDL_DestroyTexture(square_texture);
 	SDL_DestroyTexture(lazor_texture);
 	SDL_DestroyTexture(square_texture);
 	SDL_FreeSurface(surface);
