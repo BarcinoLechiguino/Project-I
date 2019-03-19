@@ -23,5 +23,7 @@ enum update_status
 #define SCREEN_WIDTH 1024
 #define SCREEN_HEIGHT 768
 #define FULLSCREEN 0
+#define LOOP_OGN 1
+#define LOOP_END 0
 
 #endif // __GLOBALS_H__
