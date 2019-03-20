@@ -96,7 +96,7 @@ int main(int argc, char * argv[])
 	}
 
 	Mix_Music * music;
-	music = Mix_LoadMUS("level1.ogg");
+	music = Mix_LoadMUS("boss.ogg");
 
 	if (!music)
 	{
@@ -104,11 +104,11 @@ int main(int argc, char * argv[])
 	}
 
 	Mix_Chunk * sample;
-	sample = Mix_LoadWAV("laser.wav");
+	sample = Mix_LoadWAV("Ryu&Ken Tornado Kick.wav");
 	
 	if (!sample)
 	{
-		SDL_Log("Mix_LoadWAV('laser.wav'): %s\n", Mix_GetError());
+		SDL_Log("Mix_LoadWAV('Ryu&Ken Tornado Kick.wav'): %s\n", Mix_GetError());
 	}
 
 	if (Mix_PlayMusic(music, -1) == -1)
@@ -154,12 +154,32 @@ int main(int argc, char * argv[])
 			if (state[SDL_SCANCODE_UP])
 			{
 				rectangle.y -= 10;
-				
+
 				if (!fire)
 				{
 					laser.y -= 10;
 				}
 			}
+			
+			/*if (state[SDL_SCANCODE_UP] == 1)
+			{
+				rectangle.y -= 10;
+
+				if (!fire)
+				{
+					laser.y -= 10;
+				}
+			}
+			
+			if (state[SDL_SCANCODE_UP] == 0)
+			{
+				rectangle.y -= 0;
+				
+				if (!fire)
+				{
+					laser.y -= 0;
+				}
+			}*/
 
 			if (state[SDL_SCANCODE_DOWN])
 			{

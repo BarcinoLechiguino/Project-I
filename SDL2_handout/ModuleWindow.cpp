@@ -15,13 +15,13 @@
 //	return 23;
 //}
 
-SDL_Window * window = nullptr;
+//SDL_Window * window = nullptr;
 
 // TODO 4: Finally create a screen surface and keep it as a public variable
 SDL_Surface * surface = nullptr;
 
 //Renderer
-SDL_Renderer * renderer = nullptr;
+//SDL_Renderer * renderer = nullptr;
 
 int loop = LOOP_OGN;
 
@@ -37,7 +37,7 @@ bool ModuleWindow::Init()
 // then create the window and check for errors
 	else
 	{
-		window = SDL_CreateWindow("HandoutII", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_RESIZABLE);
+		/*window = SDL_CreateWindow("HandoutII", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_RESIZABLE);
 
 		if (window == nullptr)
 		{
@@ -51,26 +51,26 @@ bool ModuleWindow::Init()
 		{
 			LOG("Unable to create a surface on window: %s\n", SDL_GetError());
 			SDL_Quit();
-		}
+		}*/
 
-		renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC);
+		//renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC);
 
-		if (renderer = nullptr)
-		{
-			LOG("Unable to create a surface on window: %s\n", SDL_GetError());
-			SDL_Quit();
-		}
-		
-		else
-		{
-			while (loop == LOOP_OGN)
-			{
-				SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-				SDL_RenderClear(renderer);
+		//if (renderer = nullptr)
+		//{
+		//	LOG("Unable to create a surface on window: %s\n", SDL_GetError());
+		//	SDL_Quit();
+		//}
+		//
+		//else
+		//{
+		//*	while (loop == LOOP_OGN)
+		//	{
+		//		SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+		//		SDL_RenderClear(renderer);
 
-			}
-			SDL_DestroyRenderer(renderer);
-		}
+		//	}
+		//	SDL_DestroyRenderer(renderer);*/
+		//}
 	}
 	
 	return true;
@@ -78,15 +78,14 @@ bool ModuleWindow::Init()
 
 bool ModuleWindow::CleanUp()
 {
+	// TODO 5: Fill with code CleanUp() method :)
 	if (ModuleWindow::Init() == true)
 	{
 		SDL_FreeSurface(surface);
-		SDL_DestroyWindow(window);
+		//SDL_DestroyWindow(window);
 		SDL_Quit();
 	}
 	
 	return false;
 }
-
-// TODO 5: Fill with code CleanUp() method :)
 

@@ -16,6 +16,8 @@ enum main_states
 	MAIN_EXIT
 };
 
+SDL_Window * window = nullptr;
+SDL_Renderer * renderer = nullptr;
 
 int main(int argc, char* argv[])
 {
@@ -62,6 +64,25 @@ int main(int argc, char* argv[])
 					state = MAIN_EXIT;
 				} else if (update_return == UPDATE_STOP)
 					state = MAIN_FINISH;
+
+
+	/*			window = SDL_CreateWindow("HandoutII", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_RESIZABLE);
+				
+				renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC);
+
+				if (renderer = nullptr)
+				{
+					LOG("Unable to create a surface on window: %s\n", SDL_GetError());
+					SDL_Quit();
+				}
+				
+				while (LOOP_OGN)
+				{
+					SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+					SDL_RenderClear(renderer);
+
+				}
+				SDL_DestroyRenderer(renderer);*/
 			}
 				break;
 
