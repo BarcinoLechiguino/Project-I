@@ -10,6 +10,10 @@
 ModuleTextures::ModuleTextures() : Module()
 {
 	// TODO 5: Initialize all texture pointers to nullptr
+	for (int i = 0; i < MAX_TEXTURES; i++)
+	{
+		textures[i] = nullptr;
+	}
 }
 
 // Destructor
@@ -35,12 +39,21 @@ bool ModuleTextures::Init()
 	return ret;
 }
 
-// Called before q	uitting
+// Called before quitting
 bool ModuleTextures::CleanUp()
 {
 	LOG("Freeing textures and Image library");
 
 	// TODO 6: Free all textures
+	for (int i = 0; i < MAX_TEXTURES; i++)
+	{
+		if (textures[i] != nullptr)
+		{
+			textures[i] = nullptr;
+		}
+
+		//SDL_DestroyTexture(textures[i]);
+	}
 
 	IMG_Quit();
 	return true;
@@ -59,6 +72,13 @@ SDL_Texture* const ModuleTextures::Load(const char* path)
 		LOG("Unable to load the texture: %s", SDL_GetError());
 	}
 	// TODO 4: Before leaving, remember to free the surface and add the texture to our own array so we can properly free them
+	for (int i = 0; i < MAX_TEXTURES; i++)
+	{
+		if (textures[i] == nullptr)
+		{
+			textures[i] = texture;
+		}
+	}
 
 	return texture;
 }
