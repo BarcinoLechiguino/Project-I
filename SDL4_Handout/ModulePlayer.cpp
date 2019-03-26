@@ -41,24 +41,24 @@ ModulePlayer::ModulePlayer()
 	//Ryu light punch
 	lightPunch.PushBack({ 16, 272, 63, 91 });
 	lightPunch.PushBack({ 108, 272, 92, 91 });
-	lightPunch.speed = 0.4f;
+	lightPunch.speed = 0.3f;
 
 	//Ryu light kick
 	lightKick.PushBack({ 12, 657, 60, 94 });
 	//lightKick.speed = 0.005f;
 	lightKick.PushBack({ 95, 657, 48, 94});
-	//lightKick.speed = 0.05f;
+	lightKick.speed = 0.05f;
 	lightKick.PushBack({ 167, 658, 80, 93});
-	lightKick.speed = 0.15f;
+	lightKick.speed = 0.1f;
 
 	//Ryu jump
 	jump.PushBack({ 19, 847, 53, 85 });
 	jump.PushBack({ 95, 823, 56, 104 });
 	jump.PushBack({ 176, 805, 50, 89 });
 	jump.PushBack({ 251, 798, 54, 77 });
-	jump.PushBack({ 327, 813, 48, 70});
-	jump.PushBack({});
-	jump.PushBack({});
+	jump.PushBack({ 327, 813, 48, 70 });
+	jump.PushBack({ 397, 810, 48, 89 });
+	jump.PushBack({ 464, 819, 55, 109 });
 	jump.speed = 0.1f;
 }
 
@@ -107,21 +107,18 @@ update_status ModulePlayer::Update()
 	{
 		current_animation = &jump;
 		
-		/*if (position.y < 270)
-		{
-			for (int i = 0; i < 4; i++)
-			{
-				position.y += speed + 12;
-			}
-		}
+		//for (int i = 0; i < 7; i++)
+		//{
+		//	for (int i = 0; i < 3; i++) //if (position.y <= 270)
+		//	{
+		//		position.y -= speed;
+		//	}
 
-		else
-		{
-			for (int i = 50; i >= 0; i--)
-			{
-				position.y -= speed - 12;
-			}
-		}*/
+		//	else if (position.y > 270)
+		//	{
+		//		position.y += speed;
+		//	}
+		//}
 	}
 	// Draw everything --------------------------------------
 	SDL_Rect r = current_animation->GetCurrentFrame();
