@@ -35,7 +35,7 @@ bool ModuleRender::Init()
 	}
 
 	// TODO 9: load a texture "test.png" to test is everything works well
-	tex = IMG_LoadTexture(/*App->render->*/renderer, "Game/test.png");
+	tex = IMG_LoadTexture(App->render->renderer, "Game/test.png");
 
 	return ret;
 }
@@ -48,7 +48,7 @@ update_status ModuleRender::PreUpdate()
 	SDL_RendererClear(App->render->renderer)*/
 
 	// TODO 10: Blit our test texture to check functionality
-	//Blit(tex, 0, 0, section);
+	Blit(tex, 0, 0, nullptr);
 
 	return update_status::UPDATE_CONTINUE;
 }
