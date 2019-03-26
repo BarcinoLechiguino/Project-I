@@ -23,6 +23,9 @@ public:
 	Animation idle;
 	Animation forward;
 	Animation backward;
+	Animation lightPunch;
+	Animation lightKick;
+	Animation jump;
 	iPoint position;
 
 };
