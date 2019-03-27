@@ -73,7 +73,7 @@ update_status ModuleBackground::Update()
 	
 
 	// TODO 3: Animate the girl on the ship (see the sprite sheet)
-	App->render->Blit(graphics, 192, 108 + timer, &(woman.GetCurrentFrame()), 0.75f); //Woman animation
+	App->render->Blit(graphics, 192, 109 + timer, &(woman.GetCurrentFrame()), 0.75f); //Woman animation
 
 	App->render->Blit(graphics, 0, 170, &ground);
 
