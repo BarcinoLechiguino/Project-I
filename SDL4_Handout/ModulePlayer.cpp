@@ -41,7 +41,7 @@ ModulePlayer::ModulePlayer()
 	//Ryu light punch
 	lightPunch.PushBack({ 16, 272, 63, 91 });
 	lightPunch.PushBack({ 108, 272, 92, 91 });
-	lightPunch.speed = 0.3f;
+	lightPunch.speed = 0.2f;
 
 	//Ryu light kick
 	lightKick.PushBack({ 12, 657, 60, 94 });
@@ -49,7 +49,7 @@ ModulePlayer::ModulePlayer()
 	lightKick.PushBack({ 95, 657, 48, 94});
 	lightKick.speed = 0.05f;
 	lightKick.PushBack({ 167, 658, 80, 93});
-	lightKick.speed = 0.1f;
+	lightKick.speed = 0.15f;
 
 	//Ryu jump
 	jump.PushBack({ 19, 847, 53, 85 });

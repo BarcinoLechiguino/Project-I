@@ -67,13 +67,13 @@ update_status ModuleBackground::Update()
 	// Draw everything --------------------------------------
 	App->render->Blit(graphics, 0, 0, &background, 0.75f); // sea and sky
 	App->render->Blit(graphics, 560, 8, &(flag.GetCurrentFrame()), 0.75f); // flag animation
-
+	
 	// TODO 2: Draw the ship from the sprite sheet with some parallax effect
 	App->render->Blit(graphics, 0, timer, &ship, 0.95f); //The ship
 	
 
 	// TODO 3: Animate the girl on the ship (see the sprite sheet)
-	App->render->Blit(graphics, 192, 109 + timer, &(woman.GetCurrentFrame()), 0.75f); //Woman animation
+	App->render->Blit(graphics, 192, timer + 109, &(woman.GetCurrentFrame()), 0.75f); //Woman animation
 
 	App->render->Blit(graphics, 0, 170, &ground);
 
