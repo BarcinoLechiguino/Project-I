@@ -43,7 +43,6 @@ bool ModuleSceneHonda::Start()
 
 	// TODO 1: Enable (and properly disable) the player module
 	App->player->Enable();
-	App->player->Disable();
 
 	return ret;
 }
@@ -53,7 +52,8 @@ bool ModuleSceneHonda::CleanUp()
 {
 	// TODO 5: Remove all memory leaks
 	LOG("Unloading honda stage");
-
+	App->textures->Unload(graphics);
+	App->player->Disable();
 	return true;
 }
 

@@ -14,6 +14,9 @@ public:
 	update_status Update();
 	bool FadeToBlack(Module* module_off, Module* module_on, float time = 2.0f);
 
+	Module * moduleOff = nullptr;
+	Module * moduleOn = nullptr;
+
 private:
 
 	enum fade_step

@@ -3,6 +3,8 @@
 #include "Application.h"
 #include "ModuleFadeToBlack.h"
 #include "ModuleRender.h"
+#include "ModuleSceneHonda.h"
+#include "ModuleSceneKen.h"
 #include "SDL/include/SDL_render.h"
 #include "SDL/include/SDL_timer.h"
 
@@ -38,7 +40,8 @@ update_status ModuleFadeToBlack::Update()
 			if(now >= total_time)
 			{
 				// TODO 3: enable / disable the modules received when FadeToBlacks() gets called
-				
+				moduleOff->Disable();
+				moduleOn->Enable();
 				// ---
 				total_time += total_time;
 				start_time = SDL_GetTicks();
@@ -68,6 +71,9 @@ update_status ModuleFadeToBlack::Update()
 bool ModuleFadeToBlack::FadeToBlack(Module* module_off, Module* module_on, float time)
 {
 	bool ret = false;
+
+	moduleOff = module_off;
+	moduleOn = module_on;
 
 	if(current_step == fade_step::none)
 	{
