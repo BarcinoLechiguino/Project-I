@@ -4,6 +4,7 @@
 #include "Module.h"
 #include "Animation.h"
 #include "p2Point.h"
+//#include "ModuleCollision.h"
 
 struct SDL_Texture;
 struct Collider;
@@ -27,7 +28,7 @@ public:
 	Animation down;
 	iPoint position;
 	Collider * player_collider = nullptr;
-	void OnCollision(Collider*, Collider*) override {}
+	void OnCollision(Collider* c1, Collider* c2);
 };
 
 #endif
