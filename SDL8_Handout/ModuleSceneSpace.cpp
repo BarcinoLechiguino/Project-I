@@ -52,6 +52,14 @@ bool ModuleSceneSpace::Start()
 	App->enemies->AddEnemy(ENEMY_TYPES::BROWNCOOKIE, 895, 100);
 	App->enemies->AddEnemy(ENEMY_TYPES::BROWNCOOKIE, 910, 100);
 
+	App->enemies->AddEnemy(ENEMY_TYPES::BROWNCOOKIE, 950, 140);
+	App->enemies->AddEnemy(ENEMY_TYPES::BROWNCOOKIE, 965, 140);
+	App->enemies->AddEnemy(ENEMY_TYPES::BROWNCOOKIE, 980, 140);
+	App->enemies->AddEnemy(ENEMY_TYPES::BROWNCOOKIE, 995, 140);
+	App->enemies->AddEnemy(ENEMY_TYPES::BROWNCOOKIE, 1010, 140);
+
+	//TODO 3: Add a Mech walking
+	App->enemies->AddEnemy(ENEMY_TYPES::MECH, 825, 160);
 	
 	return true;
 }

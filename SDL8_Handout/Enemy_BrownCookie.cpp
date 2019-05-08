@@ -12,29 +12,17 @@ Enemy_BrownCookie::Enemy_BrownCookie(int x, int y) : Enemy(x, y)
 
 	collider = App->collision->AddCollider({ 0, 0, 24, 24 }, COLLIDER_TYPE::COLLIDER_ENEMY, (Module*)App->enemies);
 
-	original_y = y;
+	original_pos = position;
+
+	path.PushBack({ -1, -1 }, 80, &fly);
+	path.PushBack({ -1, 1 }, 80, &fly);
+	path.PushBack({ -1, -1 }, 80, &fly);
+	path.PushBack({ -1, 1 }, 80, &fly);
 }
+
+
 
 void Enemy_BrownCookie::Move()
 {
-	//fPoint position(1, 1);
-	/*if (going_up)
-	{
-		if (wave > 6.0f)
-			going_up = false;
-		else
-			wave += 0.05f;
-	}
-	else
-	{
-		if (wave < -6.0f)
-			going_up = true;
-		else
-			wave -= 0.05f;
-	}
-
-	position.y = int(float(original_y) + (25.0f * sinf(wave)));*/
-	path.PushBack(steps.speed, steps.frames, steps.animation);
-	//position.y = original_pos.y + path.GetCurrentPosition();
-	position.x -= 1;
+	position = original_pos + path.GetCurrentPosition();
 }
